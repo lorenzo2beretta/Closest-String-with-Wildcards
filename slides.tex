@@ -39,8 +39,7 @@
   For $i = 1 \dots n:$ \\
   $S[i]$ string on alphabet
   $\Sigma$ admitting wildcards \texttt{*} 
-  \begin{center}
-    
+  \begin{center}  
     $S = $
     \begin{pmatrix}
   \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
@@ -63,33 +62,32 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
 
 \end{frame}
 
-\begin{frame}{Problem Statement}
-  For $i = 1 \dots n:$ \\
-  $S[i]$ string on alphabet
-  $\Sigma$ admitting wildcards \texttt{*} 
-  \begin{center}
+% \begin{frame}{Problem Statement}
+%   For $i = 1 \dots n:$ \\
+%   $S[i]$ string on alphabet
+%   $\Sigma$ admitting wildcards \texttt{*} 
+%   \begin{center}
     
-    $S = $
-    \begin{pmatrix}
-  \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
-  \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
-  \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
-  \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
-  \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
-  \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+%     $S = $
+%     \begin{pmatrix}
+%   \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+%   \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+%   \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+%   \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+%   \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+%   \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
       
-\end{pmatrix}
-$ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
-\end{center}  
+% \end{pmatrix}
+% $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
+% \end{center}  
 
-\begin{block}{Minimum Local Radius Matrix Completion (MinLRMC)}
- \textbf{Input:} Matrix $S \in \l(\Sigma \cup
-\l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$.\\
- \textbf{Output:} $ \exists T$ completion of $S$ and $\exists i \leq n$
-  s.t. $\delta\l(T[i], T\r) \leq d$?
-\end{block}
-
-\end{frame}
+% \begin{block}{Minimum Local Radius Matrix Completion (MinLRMC)}
+%  \textbf{Input:} Matrix $S \in \l(\Sigma \cup
+% \l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$.\\
+%  \textbf{Output:} $ \exists T$ completion of $S$ and $\exists i \leq n$
+%   s.t. $\delta\l(T[i], T\r) \leq d$?
+% \end{block}
+% \end{frame}
 
 \begin{frame}{Problem Statement}
   For $i = 1 \dots n:$ \\
@@ -152,7 +150,7 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
   \begin{itemize}
   \item $\bullet$ Closest String is $\mathcal{NP}$-hard, even for
     $|\Sigma| = 2$
-  \item $\bullet$ Closest String $\preceq$ MinRMC $\preceq$ MinLRMC
+  \item $\bullet$ Closest String $\preceq$ MinRMC % $\preceq$ MinLRMC
     $\preceq$ ConRMC
   \end{itemize}
 \pause
@@ -167,12 +165,252 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
 \end{frame}
 
 \begin{frame}{State of Art}
-  
+
   
 \end{frame}
 
-\end{document}
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+      \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ 3 \\ 4 \\ 2 \\ 5 \\ 3 \\
+\end{pmatrix}
+\end{center}
 
+\begin{center}
+  \textbf{ConRMC}: find $v \in \Sigma^\ell$ s.t. $\exists T$
+  completion of $S$, $\forall i \; \delta\l(v, T[i]) \leq d_i$
+\end{center}
+
+Define $P_*(S[i]) = \l\{j \leq \ell \,|\, S[i, j] = * \r\}$
+\color{white}{, $P_*(S[2]) = \l\{2, 4, 6\r\}$}
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \texttt{a} & \color{blue}\texttt{*} & \texttt{n} & \color{blue}\texttt{*} & \texttt{n} & \color{blue}\texttt{*} \\
+      \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+      \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ 3 \\ 4 \\ 2 \\ 5 \\ 3 \\
+\end{pmatrix}
+\end{center}
+
+\begin{center}
+  \textbf{ConRMC}: find $v \in \Sigma^\ell$ s.t. $\exists T$
+  completion of $S$, $\forall i \; \delta\l(v, T[i]) \leq d_i$
+\end{center}
+
+Define $P_*(S[i]) = \l\{j \leq \ell \,|\, S[i, j] = * \r\}$, \color{blue}{$P_*(S[2]) = \l\{2, 4, 6\r\}$}
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{n} & \texttt{*} & \color{red}\texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \color{red}\texttt{b} & \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ \color{green}3 \\ 4 \\ 2 \\ \color{green}4 \\ 3 \\
+\end{pmatrix}
+\end{center}
+
+$$\text{Any $v \in \Sigma^\ell$ is a center} \iff \forall i \leq n \quad {\color{red}\ell - P_*\l(S[i]\r)} \leq \color{green}d_i$$
+
+{\color{white}
+
+\textbf{If}  holds:\\
+\hspace*{2em} return \textbf{True}\\
+\textbf{Else}:\\
+\hspace*{2em} $\exists {R_i} \subseteq \{1 \dots \ell\} \setminus
+P_*\l(S[i]\r)$ s.t.  $|{R_i}| = {d_i} + 1$
+}
+\end{frame}
+
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \color{red}\texttt{b} & \color{red}\texttt{a} & \color{blue}\texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ 3 \\ 4 \\ 2 \\ \color{green}4 \\ 3 \\
+\end{pmatrix}
+\end{center}
+
+$$\text{Any $v \in \Sigma^\ell$ is a center} \iff \forall i \leq n \quad {\ell - P_*\l(S[i]\r)} \leq d_i$$
+
+\textbf{If}  holds:\\
+\hspace*{2em} return \textbf{True}\\
+\textbf{Else}:\\
+\hspace*{2em} $\exists {\color{red}R_i} \subseteq \{1 \dots \ell\} \setminus
+\color{blue}P_*\l(S[i]\r)$ s.t.  $|{\color{red}R_i}| = {\color{green}d_i} + 1$
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \color{red}\texttt{b} & \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ 3 \\ 4 \\ 2 \\ 4 \\ 3 \\
+\end{pmatrix}
+\end{center}
+\begin{center}
+  $v \in \Sigma^\ell$ is a center $\implies \exists j \in \color{red}R_i$
+  s.t. $v[j] = S[i, j]$ 
+\end{center}
+\pause
+We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \colorbox{lightgray}{\texttt{b}} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \colorbox{lightgray}{\texttt{a}} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lightgray}{\texttt{b}} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \colorbox{lightgray}{\texttt{z}} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lightgray}{\color{red}\texttt{b}} & \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \colorbox{lightgray}{\texttt{b}} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  4 \\ 3 \\ 4 \\ 2 \\ 4 \\ 3 \\
+\end{pmatrix}
+\end{center}
+\begin{center}
+  $v \in \Sigma^\ell$ is a center $\implies \exists j \in \color{red}R_i$
+  s.t. $v[j] = S[i, j]$ 
+\end{center}
+
+We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \colorbox{lime}{\texttt{b}} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \colorbox{orange}{\texttt{a}} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lime}{\texttt{b}} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \colorbox{orange}{\texttt{z}} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lime}{\color{red}\texttt{b}} & \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \colorbox{lime}{\texttt{b}} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  \colorbox{lime}{4} \\ \colorbox{orange}{3} \\ \colorbox{lime}{4} \\ \colorbox{orange}{2} \\ \colorbox{lime}{4} \\ \colorbox{lime}{3} \\
+\end{pmatrix}
+ $\quadd d^\prime =$
+\begin{pmatrix}
+  \colorbox{lime}{4} \\ \colorbox{orange}{2} \\ \colorbox{lime}{4} \\ \colorbox{orange}{1} \\ \colorbox{lime}{4} \\ \colorbox{lime}{3} \\
+\end{pmatrix}
+\end{center}
+\begin{center}
+  $v \in \Sigma^\ell$ is a center $\implies \exists j \in \color{red}R_i$
+  s.t. $v[j] = S[i, j]$ 
+\end{center}
+
+We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+
+\end{frame}
+
+\begin{frame}{Parameter: Number $\ell$ of Columns}
+  \begin{center}
+    $S = $
+    \begin{pmatrix}
+      \colorbox{lime}{\texttt{b}} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+      \colorbox{orange}{\texttt{a}} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lime}{\texttt{b}} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+      \colorbox{orange}{\texttt{z}} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+      \colorbox{lime}{\color{red}\texttt{b}} & \color{red}\texttt{a} & \texttt{*} & \color{red}\texttt{a} & \color{red}\texttt{c} & \color{red}\texttt{a} \\
+      \colorbox{lime}{\texttt{b}} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+ $\quadd d =$
+\begin{pmatrix}
+  \colorbox{lime}{4} \\ \colorbox{orange}{3} \\ \colorbox{lime}{4} \\ \colorbox{orange}{2} \\ \colorbox{lime}{4} \\ \colorbox{lime}{3} \\
+\end{pmatrix}
+ $\quadd d^\prime =$
+\begin{pmatrix}
+  \colorbox{lime}{4} \\ \colorbox{orange}{2} \\ \colorbox{lime}{4} \\ \colorbox{orange}{1} \\ \colorbox{lime}{4} \\ \colorbox{lime}{3} \\
+\end{pmatrix}
+\end{center}
+
+$$ T(n, \ell) = (\widetilde{d} + 1) T(n, \ell - 1) + n \ell $$
+
+$$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
+\cdot n
+\ell \r) = \mathcal{O}^*\l(\ell^\ell\r)$$
+\begin{center}
+  with $\widetilde{d} = \max_i d_i$
+\end{center}
+\end{frame}
+
+\begin{frame}{A Linear Algorithm for case $d = 1$}
+
+  Mention that ConRMC is np-hard even for $d = 2$.
+  
+\end{frame}
+
+\begin{frame}{Open Problems}
+  \begin{itemize}
+  \item $\bullet$ 
+  \item $\bullet$ 
+  \item $\bullet$ 
+\end{itemize} \vspace{4mm}
+\begin{center} \Huge{Thank You!}
+  \end{center}
+\end{frame}
+
+
+\end{document}
 
 %%% Local Variables:
 %%% mode: latex
