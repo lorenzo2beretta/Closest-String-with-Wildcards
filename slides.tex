@@ -165,8 +165,36 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
 \end{frame}
 
 \begin{frame}{State of Art}
+\begin{minipage}{.45 \textwidth}
+  \begin{center}
+    \textbf{CPM '14} solved MinRMC in:
+  \end{center}
+  \begin{itemize}
+  \item $\bullet$ $\mathcal{O}^*\l(2^{\ell^2 / 2}\r)$
+  \item $\bullet$ $\mathcal{O}\l(n \ell^2\r)$ for $d = 1$
+  \item $\bullet$ $\mathcal{O}^*\l(|\Sigma|^k \cdot
+    d^d\r)$
+  \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.45 \textwidth}
+  \begin{center}
+    \textbf{Here} we solve MinRMC in:
+  \end{center}\begin{itemize}
+  \item $\bullet$ $\mathcal{O}^*\l(\ell^\ell\r)$
+  \item $\bullet$ $\mathcal{O}\l(n \ell\r)$ for $d = 1$
+  \item $\bullet$ $\mathcal{O}^*\l(|\Sigma|^{d+ k} \cdot 2^{4k + d}\r)$
+  \end{itemize}
+\end{minipage}
+\pause
+\vspace{2em}
+\begin{center}
+  A bug in CPM '14 $\mathcal{O}^*\l((d + 1)^{d + k}\r)$ algorithm is fixed 
+\end{center}
+\begin{center}
+  All results are proven for the more general \textbf{ConRMC}
+\end{center}
 
-  
 \end{frame}
 
 \begin{frame}{Parameter: Number $\ell$ of Columns}
@@ -281,6 +309,8 @@ $$\text{Any $v \in \Sigma^\ell$ is a center} \iff \forall i \leq n \quad {\ell -
 \end{frame}
 
 \begin{frame}{Parameter: Number $\ell$ of Columns}
+$\exists {\color{red}R_i} \subseteq \{1 \dots \ell\} \setminus
+\color{blue}P_*\l(S[i]\r)$ s.t.  $|{\color{red}R_i}| = {\color{green}d_i} + 1$
   \begin{center}
     $S = $
     \begin{pmatrix}
@@ -302,10 +332,13 @@ $$\text{Any $v \in \Sigma^\ell$ is a center} \iff \forall i \leq n \quad {\ell -
   s.t. $v[j] = S[i, j]$ 
 \end{center}
 \pause
-We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+For $j \in R_i$:\\
+Set $v[j] = S[i, j]$, process $j$-th column and recurse  
 \end{frame}
 
 \begin{frame}{Parameter: Number $\ell$ of Columns}
+$\exists {\color{red}R_i} \subseteq \{1 \dots \ell\} \setminus
+\color{blue}P_*\l(S[i]\r)$ s.t.  $|{\color{red}R_i}| = {\color{green}d_i} + 1$
   \begin{center}
     $S = $
     \begin{pmatrix}
@@ -327,11 +360,14 @@ We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$
   s.t. $v[j] = S[i, j]$ 
 \end{center}
 
-We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+For $j \in R_i$:\\
+Set $v[j] = S[i, j]$, process $j$-th column and recurse  
 
 \end{frame}
 
 \begin{frame}{Parameter: Number $\ell$ of Columns}
+$\exists {\color{red}R_i} \subseteq \{1 \dots \ell\} \setminus
+\color{blue}P_*\l(S[i]\r)$ s.t.  $|{\color{red}R_i}| = {\color{green}d_i} + 1$
   \begin{center}
     $S = $
     \begin{pmatrix}
@@ -357,7 +393,8 @@ We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$
   s.t. $v[j] = S[i, j]$ 
 \end{center}
 
-We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$ 
+For $j \in R_i$:\\
+Set $v[j] = S[i, j]$, process $j$-th column and recurse  
 
 \end{frame}
 
@@ -384,7 +421,7 @@ We can recurse over the $|R_i| = d_i + 1$ possible $j \in R_i$
 \end{center}
 
 $$ T(n, \ell) = (\widetilde{d} + 1) T(n, \ell - 1) + n \ell $$
-
+\pause
 $$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
 \cdot n
 \ell \r) = \mathcal{O}^*\l(\ell^\ell\r)$$
@@ -393,18 +430,80 @@ $$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
 \end{center}
 \end{frame}
 
-\begin{frame}{A Linear Algorithm for case $d = 1$}
+\begin{frame}{Linear Algorithm for $d_i \leq 1$}
 
-  Mention that ConRMC is np-hard even for $d = 2$.
+  \begin{center}
+    We solve ConRMC with $\max_i d_i \leq 1$ in $\mathcal{O}\l(n\ell\r)$
+  \end{center}
+\pause
+    \begin{block}{2-SAT}
+      Possibly repeated literals $\l\{\alpha_i\r\}_{i = 1
+        \dots n}$ and $\l\{\beta_i\r\}_{i = 1 \dots n}$ \\
+      Decide if the following is satisfiable 
+      $$\bigwedge_{i = 1}^n \l(\alpha_i \lor
+      \beta_i\r)$$
+    
+    \end{block}
+
+    \begin{center}
+      2-SAT is solvable in $\mathcal{O}(n)$!
+    \end{center}
+\pause
+    \begin{center}
+      \Huge{Reduction Time!}
+    \end{center}
+    
+\end{frame}
+
+\begin{frame}{Linear Algorithm for $d_i \leq 1$}
+  Suppose $v \in \Sigma^\ell $ solves MinRMC
+  \begin{center}
+    $x_{j, \sigma} = \l(\text{\texttt{v[j] == $\sigma$}} \r)$
+  \end{center}
+\pause
+  We write MinRMC as $\phi_1 \land \phi_2 \land \phi_3$ where:
+  \begin{equation*}
+    \phi_1
+    = \text{`` For each $j$ at most one of $\l\{x_{j,
+        \sigma}\r\}_{\sigma \in \Sigma}$ is true ''}
+\end{equation*}
+\pause
+\begin{equation*}
+  \phi_2 = \text{`` For each $j$ if $d_i = 0$ then $x_{j, S[i,j]}$ is true ''} 
+\end{equation*}
+\pause
+\begin{equation*}
+  \phi_3 = \text{`` If $d_i = 1$ then at most one of $\l\{x_{j, S[i,
+      j]}\r\}_{j \leq \ell}$ is false ''} 
+\end{equation*}
   
+\end{frame}
+
+\begin{frame}{Linear Algorithm for $d_i \leq 1$}
+$P = \{p_1 \dots p_m\}$ propositions, exists a compact 2-SAT
+encoding of
+
+\begin{center}
+  $C_{\leq 1}(P) = $ ``At most one proposition in $P$ is true'' 
+\end{center}
+
+that uses $\mathcal{O}(m)$ clauses. 
+\pause
+\vspace{3em}
+\begin{center}
+  {\LARGE Some more logic manipulations do the trick...}
+\end{center}
+
 \end{frame}
 
 \begin{frame}{Open Problems}
   \begin{itemize}
-  \item $\bullet$ 
-  \item $\bullet$ 
-  \item $\bullet$ 
-\end{itemize} \vspace{4mm}
+  \item $\bullet$ MinRMC with $t$ outliers: FPT w.r.t. $d + k + t$.
+\vspace{2mm}
+  \item $\bullet$ Closest String is solved in $\mathcal{O}^*\l(\l(16
+    |\Sigma|\r)^d\r)$. Match that.
+  \end{itemize}
+  \vspace{4mm}
 \begin{center} \Huge{Thank You!}
   \end{center}
 \end{frame}
