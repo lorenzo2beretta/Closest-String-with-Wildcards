@@ -2,7 +2,6 @@
 \usetheme{metropolis}
 \useinnertheme{rounded}
 
-%pacchetti scrittura
 \usepackage{dsfont}
 \usepackage{amsthm}
 \usepackage{amsmath}
@@ -15,753 +14,161 @@
 \usepackage{scalerel}
 \usepackage{comment}
 \usepackage[utf8]{inputenc}
-
 \usepackage{tkz-graph}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{graphicx}
 
-% tikz
 \usetikzlibrary{arrows, positioning}
 
+\renewcommand{\l}{\left}
+\renewcommand{\r}{\right}
 
 \title{Parameterized Algorithms for Matrix Completion with Radius
   Constraints}
-\author{{Tomohiro Koana\inst{1}} \and Vincent
-  Froese\inst{1}
-  \and\\
-  Rolf Niedermeier\inst{1} } \institute{\inst{1}
-    Techqnische Universität Berlin, Faculty IV, Algorithmics and
-    Computational Complexity}}
+\author{{Tomohiro Koana\inst{1}} \and Vincent Froese\inst{1} \and\\
+  Rolf Niedermeier\inst{1} }
+\institute{\inst{1} Techqnische Universität Berlin, Faculty IV,
+  Algorithmics and Computational Complexity}}
 \date{May 12, 2020}
 
 \begin{document}
 \maketitle
 
-\begin{frame}{Applications}
-
-  \begin{block}{Best@1: find the best item over a set}
-    \begin{itemize}
-    \item $\bullet$ Question Answering
-    \item $\bullet$ Recommendation System 
-    \item $\bullet$ Machine Translation
-    \item $\bullet$ Web Search
-    \end{itemize}
-  \end{block}
-  \begin{block}{Techniques Employed}
-  \begin{itemize}
-  \item $\bullet$ ML sorting algorithm and select the first element
-  \item $\bullet$ ML pairwise classifier and work on the induced graph
-  \end{itemize}  
-\end{block}
-\end{frame}
-
-\begin{frame}{Warm Up}
-\begin{block}{$T$ is a DAG}
-  The Champion beats everyone $\implies$ we have a $O\left(n\right)$ algorithm!
-\end{block}
+\begin{frame}{Problem Statement}
+  For $i = 1 \dots n:$ \\
+  $S[i]$ string on alphabet
+  $\Sigma$ admitting wildcards \texttt{*} 
+  \begin{center}
+    
+    $S = $
+    \begin{pmatrix}
+  \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+  \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+  \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+  \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+$ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
+\end{center}  
 \pause
-
-\begin{block}{General Case: Lower Bound}
-  We need to unfold at least  $\Omega\left(n^2\right)$ arcs     
-  $\implies$ Brute force is optimal
+\begin{block}{Minimum Radius Matrix Completion (MinRMC)}
+ \textbf{Input:} Matrix $S \in \l(\Sigma \cup
+\l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$. \\
+ \textbf{Output:} $ \exists T$ completion of $S$ and $\exists v \in
+\Sigma^\ell$ s.t. $\delta\l(v, T\r) \leq d$ ?
 \end{block}
+
+\end{frame}
+
+\begin{frame}{Problem Statement}
+  For $i = 1 \dots n:$ \\
+  $S[i]$ string on alphabet
+  $\Sigma$ admitting wildcards \texttt{*} 
+  \begin{center}
+    
+    $S = $
+    \begin{pmatrix}
+  \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+  \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+  \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+  \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+$ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
+\end{center}  
+
+\begin{block}{Minimum Local Radius Matrix Completion (MinLRMC)}
+ \textbf{Input:} Matrix $S \in \l(\Sigma \cup
+\l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$.\\
+ \textbf{Output:} $ \exists T$ completion of $S$ and $\exists i \leq n$
+  s.t. $\delta\l(T[i], T\r) \leq d$?
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Problem Statement}
+  For $i = 1 \dots n:$ \\
+  $S[i]$ string on alphabet
+  $\Sigma$ admitting wildcards \texttt{*} 
+  \begin{center}
+    
+    $S = $
+    \begin{pmatrix}
+  \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
+  \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
+  \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
+  \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
+  \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
+      
+\end{pmatrix}
+$ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
+\end{center}  
+
+\begin{block}{Constraint Radius Matrix Completion (ConRMC)}
+  \textbf{Input:} Matrix $S \in \l(\Sigma \cup
+\l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d_1 \dots d_n \in \mathbb{N}$.\\
+ \textbf{Output:} $ \exists T$ completion of $S$ and $\exists v \in \Sigma^\ell$
+ s.t. $\forall i$ $\delta\l(v, T[i]\r) \leq d_i$?
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Related Work}
+  \begin{center}
+    Stringology and ML meet in the middle!
+  \end{center}
 \pause
-
-\begin{center}
-  Exploit the tournament structure $\longrightarrow$
-  \textbf{parametrized complexity} 
-\end{center}
-\end{frame}
-
-\begin{frame}{Parametrized Complexity}
-\begin{block}{Parametrize with $\ell$}
-  % $$\ell = \min_{y \in V}d^-(y)$$
-  the number of matches lost by the champion
-\end{block}
+  \begin{block}{ICML '18: Parameterized Algorithms for Matrix
+      Completion}
+    Dataset contains missing entries \\
+    Fill the gaps optimizing some metrics (e.g. rank of the matrix)    
+  \end{block}
 \pause
-    
-\begin{block}{Lower Bound}
-  We have to unfold at least $\Omega\left(\ell n\right)$ arcs    
-\end{block}
-\begin{block}{Proof}
-  \begin{center}
-    $M = $
-    \begin{pmatrix}
-      0 & * & * & * & * & * \\
-      * & 0 & * & * & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{center}
- \end{block}
-\end{frame}
-
-\begin{frame}{Parametrized Complexity}
-\begin{block}{Parametrize with $\ell$}
-  % $$\ell = \min_{y \in V}d^-(y)$$
-  the number of matches lost by the champion
-\end{block}
-    
-\begin{block}{Lower Bound}
-  We have to unfold at least $\Omega\left(\ell n\right)$ arcs    
-\end{block}
-\begin{block}{Proof}
-  \begin{center}
-    $M = $
-    \begin{pmatrix}
-      0 & 1 & 1 & 1 & 1 & 0 \\
-      0 & 0 & 0 & * & 1 & * \\
-      0 & 1 & 0 & 0 & * & * \\
-      0 & * & 1 & 0 & 0 & * \\
-      0 & 0 & * & 1 & 0 & * \\
-      1 & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{center}
-\end{block}
-\end{frame}
-
-
-\begin{frame}{Parametrized Complexity}
-\begin{block}{Parametrize with $\ell$}
-  % $$\ell = \min_{y \in V}d^-(y)$$
-  the number of matches lost by the champion
-\end{block}
-    
-\begin{block}{Lower Bound}
-  We have to unfold at least $\Omega\left(\ell n\right)$ arcs    
-\end{block}
-\begin{block}{Proof}
-  \begin{center}
-    $M = $
-    \begin{pmatrix}
-      0 & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & 0 \\
-      0 & 0 & 0 & * & 1 & * \\
-      0 & 1 & 0 & 0 & * & * \\
-      0 & * & 1 & 0 & 0 & * \\
-      0 & 0 & * & 1 & 0 & * \\
-      1 & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{center}
-\end{block}
-\end{frame}
-
-
-\begin{frame}{Parametrized Complexity}
-\begin{block}{Parametrize with $\ell$}
-  % $$\ell = \min_{y \in V}d^-(y)$$
-  the number of matches lost by the champion
-\end{block}
-    
-\begin{block}{Lower Bound}
-  We have to unfold at least $\Omega\left(\ell n\right)$ arcs    
-\end{block}
-\begin{block}{Proof}
-  \begin{center}
-    $M = $
-    \begin{pmatrix}
-      0 & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & 0 \\
-      0 & 0 & 0 & * & 1 & * \\
-      0 & 1 & 0 & 0 & * & * \\
-      0 & * & 1 & 0 & 0 & * \\
-      0 & 0 & * & 1 & 0 & * \\
-      1 & \textbf{\color{red}1} & \textbf{\color{red}1} & \textbf{\color{red}1} & \textbf{\color{red}1} & 0 \\      
-    \end{pmatrix}
-  \end{center}
-  \pause
-  The \textbf{optimality certificate} consists of
-  $\Omega\left(\ell n\right)$ entries of $M$
-\end{block}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{center}
-    \begin{pmatrix}
-      0 & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & \textbf{\color{green}1} & 0 \\
-      0 & 0 & 0 & * & 1 & * \\
-      0 & 1 & 0 & 0 & * & * \\
-      0 & * & 1 & 0 & 0 & * \\
-      0 & 0 & * & 1 & 0 & * \\
-      1 & \textbf{\color{red}1} & \textbf{\color{red}1} & \textbf{\color{red}1} & \textbf{\color{red}1} & 0 \\      
-    \end{pmatrix}
-  \end{center}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-    \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & * & * & * & * \\
-      * & 0 & * & * & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & * & * & 1 & * \\
-      * & 0 & * & * & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & * & 1 & 1 & * \\
-      * & 0 & * & * & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & 0 & 1 & 1 & * \\
-      * & 0 & * & * & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & 0 & 1 & 1 & * \\
-      * & 0 & * & 1 & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & 0 & 1 & 1 & * \\
-      * & 0 & 0 & 1 & * & * \\
-      * & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & 0 & 1 & 1 & * \\
-      * & 0 & 0 & 1 & * & * \\
-      1 & * & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-\end{frame}
-
-
-\begin{frame}{Can we Match the Lower Bound $\Omega\left(\ell n\right)$?}
-  \begin{block}{Find the optimality certificate}
-    guessing zeros randomly row by row
-  \end{block}
-  \vspace{1cm}
-  \begin{minipage}{.4 \textwidth}
-    \begin{pmatrix}
-      0 & * & 0 & 1 & 1 & * \\
-      * & 0 & 0 & 1 & * & * \\
-      1 & 0 & 0 & * & * & * \\
-      * & * & * & 0 & * & * \\
-      * & * & * & * & 0 & * \\
-      * & * & * & * & * & 0 \\
-    \end{pmatrix}
-  \end{minipage}
-  \pause
-  \begin{minipage}{.55 \textwidth}
-    \begin{block}{Las Vegas Algorithm}
-       Worst Case: $\Theta\left(\ell n \log(n)\right)$ w.h.p.
-    \end{block}
-    \begin{center}
-    \Large Bound Unmatched!
-  \end{center}
-
-  \end{minipage}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {0};
-
-    \node [square, draw, fill = yellow, right = 4mm of 3] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 5] {0};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-      $\alpha / 2 \leq \ell < \alpha$};
-        \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-      $2\alpha + 1$ survive};
-    
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {0};
-
-    \node [square, draw, fill = yellow, right = 4mm of 3] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 5] {1};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-    $\alpha / 2 \leq \ell < \alpha$};
-
-      \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-      $2\alpha + 1$ survive};
-    
-    \draw[arrows = -triangle 45, style = {very thick}] (6) -- (5);
-
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {0};
-
-    \node [square, draw, fill = yellow, right = 4mm of 3] {1};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 5] {1};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-    $\alpha / 2 \leq \ell < \alpha$};
-
-      \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-    $2\alpha + 1$ survive};
-  
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (3);
-
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {0};
-
-    \node [square, draw, fill = red, right = 4mm of 3] {2};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 5] {1};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-    $\alpha / 2 \leq \ell < \alpha$};
-
-      \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-    $2\alpha + 1$ survive};
-  
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (4) -- (3);
-
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {1};
-
-    \node [square, draw, fill = red, right = 4mm of 3] {2};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 5] {1};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-    $\alpha / 2 \leq \ell < \alpha$};
-
-      \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-    $2\alpha + 1$ survive};
-  
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (4) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (2);
-  
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm, fill = black] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm] (6) at (-0.5,0.85) {6};
-
-    
-    \node [square, draw, fill = yellow, below left = 3mm and 3mm of 1] {0};
-
-    \node [square, draw, fill = yellow, below right = 3mm and 3mm of 2] {1};
-
-    \node [square, draw, fill = red, right = 4mm of 3] {2};
-
-    \node [square, draw, fill = yellow, above right = 3mm and 3mm of 4] {0};
-
-    \node [square, draw, fill = red, above right = 3mm and 3mm of 5] {2};
-
-    \node [square, draw, fill = yellow, left = 4mm of 6] {0};
-
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -1cm]
-    {\textbf{Kill Threshold $\alpha$}\\
-      $\alpha / 2 \leq \ell < \alpha$};
-
-    \node at (current bounding box.south west)
-    [text width = 3cm, anchor=south west, xshift = -0.2cm, yshift = 0.4cm]
-    {\textbf{Kill Until}\\
-    $2\alpha + 1$ survive};
-
-  
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (4) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (2);
-  \draw[arrows = -triangle 45, style = {very thick}] (2) -- (5);
-
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm, fill = black] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm, fill = black] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (6) at (-0.5,0.85) {6};
-
-    
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -2cm]
-    {\textbf{Solve Brute Force}\\
-    in $O\left((2 \alpha + 1) n\rihgt)$ };
-
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm, fill = black] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm, fill = black] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (6) at (-0.5,0.85) {6};
-
-    
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -2cm]
-    {\textbf{Solve Brute Force}\\
-    in $O\left((2 \alpha + 1) n\rihgt)$ };
-
-  \draw[arrows = -triangle 45, style = {very thick}] (3) -- (2);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (2);
-  \draw[arrows = -triangle 45, style = {very thick}] (4) -- (1);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (6);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (2) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (2) -- (4);
-  \draw[arrows = -triangle 45, style = {very thick}] (1) -- (2);
- 
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Algorithm}
-\begin{center}
-  \begin{tikzpicture}[scale = 3.5][node distance = .3cm and .3cm]
-    \node[fill = green, circle,draw, minimum size = .5cm] (1) at (0,0) {1};
- 
-    \node[circle,draw, minimum size = .5cm] (2) at (1,0) {2};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (3) at (1.5,0.85) {3};
-    
-    \node[circle,draw, minimum size = .5cm, fill = black] (4) at (1,1.7) {4};
-      
-    \node[circle,draw, minimum size = .5cm, fill = black] (5) at (0,1.7) {5};
-
-    \node[circle,draw, minimum size = .5cm, fill = black] (6) at (-0.5,0.85) {6};
-
-    
-    \node at (current bounding box.north west)
-    [text width = 3cm, anchor=north west, xshift = -2cm]
-    {\textbf{Solve Brute Force}\\
-    in $O\left((2 \alpha + 1) n\rihgt)$ };
-
-  \draw[arrows = -triangle 45, style = {very thick}] (3) -- (2);
-  \draw[arrows = -triangle 45, style = {very thick}] (6) -- (2);
-  \draw[arrows = -triangle 45, style = {very thick}] (4) -- (1);
-  \draw[color = green, arrows = -triangle 45, style = {very thick}] (1) -- (6);
-  \draw[color = green, arrows = -triangle 45, style = {very thick}] (1) -- (5);
-  \draw[color = green, arrows = -triangle 45, style = {very thick}] (1) -- (3);
-  \draw[arrows = -triangle 45, style = {very thick}] (2) -- (5);
-  \draw[arrows = -triangle 45, style = {very thick}] (2) -- (4);
-  \draw[color = green, arrows = -triangle 45, style = {very thick}] (1) -- (2);
- 
-  \end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Complexity}
-  \begin{itemize}
-  \item $\bullet$ Every arc unfolded increase a counter by one
-  \item $\bullet$ Every counter is always $\leq \alpha$ 
-  \end{itemize}
-  $\implies$ The first phase takes $O(\alpha n)$
-  \pause
-  \begin{itemize}
-  \item $\bullet$ We start the second phase with $2\alpha + 1$ survivals 
-  \item $\bullet$ Every survival plays $n - 1$ games
-  \end{itemize}
-  $\implies$ The second phase takes $O(\alpha n)$
-
-  $$ \alpha / 2 < \ell  \implies \text{Complexity: } O(\ell n)$$ 
-  
-\end{frame}
-
-\begin{frame}{Correctness}
-  \begin{block}{We assumed to know $\alpha$ such that $\alpha / 2 \leq \ell < \alpha$}
-    
+  \begin{block}{CPM '14: Parameterized Closest String
+      with Wildcards}
+    \textcolor{red}{Closest string} $\equiv$ MinRMC for a wildcard-free S \\
+    Applications in Bioinformatics
     \begin{itemize}
-    \item $\bullet$ We don't know $\ell$ in advance!
-    \item $\bullet$ Perform an exponential search over $\alpha$
-    \item $\bullet$ If the candidate has lost $< \alpha$ games, then it is the champion
-    \end{itemize}
-  \end{block}
-
-  \center\textbf{Complexity is Preserved}
-
-    $$\sum_{2^i \leq \ell} 2^i n = O\left(\ell n\right)$$
-\end{frame}
-
-\begin{frame}{Correctness}
-  \begin{block}{Can we keep killing vertices until $2\alpha + 1$ survive?}
-    \vspace{.4cm}
-    \begin{itemize}
-    \item $\bullet$ Consider a sub-tournament of $2\alpha + 1$ alive vertices
-    \item $\bullet$ Suppose every vertex loses $< \alpha$ games
-    \item $\bullet$ Double counting total losses gives a contradiction
+    \item $\bullet$ Motif finding
+    \item $\bullet$ PCR primer design
+    \item $\bullet$ Genetic probe design
     \end{itemize}
     
   \end{block}
 \end{frame}
 
-\begin{frame}{Open Problems}
-  \begin{itemize}
-  \item $\bullet$ Is there any better parametrization?
-    \vspace{4mm}
-  \item $\bullet$ Is there a Monte Carlo algorithm that runs faster?
-    \vspace{4mm}
-  \item $\bullet$ Waiting for further advancements in ML pairwise classifiers...
-  \end{itemize}
-  \vspace{4mm}
+\begin{frame}{Hardness Results}
+
   \begin{center}
-    \Huge{Thank You!}
+    \textbf{All Problems are Intractable}
   \end{center}
 
+  \begin{itemize}
+  \item $\bullet$ Closest String is $\mathcal{NP}$-hard, even for
+    $|\Sigma| = 2$
+  \item $\bullet$ Closest String $\preceq$ MinRMC $\preceq$ MinLRMC
+    $\preceq$ ConRMC
+  \end{itemize}
+\pause
+  \begin{center}
+    \textbf{Fixed Parameter Tractability}
+  \end{center}
+  
+  \begin{itemize}
+  \item $f(n, k) = \mathcal{O}\l(g(k) n^{\mathcal{O}(1)}\r)$ \pause
+    $ \iff f(n, k) = \mathcal{O}^* \l(g(k)\r)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{State of Art}
+  
+  
 \end{frame}
 
 \end{document}
