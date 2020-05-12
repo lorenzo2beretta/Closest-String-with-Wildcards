@@ -57,37 +57,10 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
  \textbf{Input:} Matrix $S \in \l(\Sigma \cup
 \l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$. \\
  \textbf{Output:} $ \exists T$ completion of $S$ and $\exists v \in
-\Sigma^\ell$ s.t. $\delta\l(v, T\r) \leq d$ ?
+\Sigma^\ell$ s.t. $\forall i$ $\delta\l(v, T[i]\r) \leq d$ ?
 \end{block}
 
 \end{frame}
-
-% \begin{frame}{Problem Statement}
-%   For $i = 1 \dots n:$ \\
-%   $S[i]$ string on alphabet
-%   $\Sigma$ admitting wildcards \texttt{*} 
-%   \begin{center}
-    
-%     $S = $
-%     \begin{pmatrix}
-%   \texttt{b} & \texttt{a} & \texttt{n} & \texttt{a} & \texttt{n} & \texttt{a} \\
-%   \texttt{a} & \texttt{*} & \texttt{n} & \texttt{*} & \texttt{n} & \texttt{*} \\
-%   \texttt{b} & \texttt{*} & \texttt{*} & \texttt{c} & \texttt{z} & \texttt{a} \\
-%   \texttt{z} & \texttt{a} & \texttt{z} & \texttt{*} & \texttt{n} & \texttt{*} \\
-%   \texttt{b} & \texttt{a} & \texttt{*} & \texttt{a} & \texttt{c} & \texttt{a} \\
-%   \texttt{b} & \texttt{*} & \texttt{n} & \texttt{c} & \texttt{*} & \texttt{z} \\
-      
-% \end{pmatrix}
-% $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
-% \end{center}  
-
-% \begin{block}{Minimum Local Radius Matrix Completion (MinLRMC)}
-%  \textbf{Input:} Matrix $S \in \l(\Sigma \cup
-% \l\{\texttt{*}\r\}\r)^{n \times \ell}$ and $d \in \mathbb{N}$.\\
-%  \textbf{Output:} $ \exists T$ completion of $S$ and $\exists i \leq n$
-%   s.t. $\delta\l(T[i], T\r) \leq d$?
-% \end{block}
-% \end{frame}
 
 \begin{frame}{Problem Statement}
   For $i = 1 \dots n:$ \\
@@ -130,7 +103,7 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
 \pause
   \begin{block}{CPM '14: Parameterized Closest String
       with Wildcards}
-    \textcolor{red}{Closest string} $\equiv$ MinRMC for a wildcard-free S \\
+    \textcolor{red}{Closest String} $\equiv$ MinRMC for a wildcard-free S \\
     Applications in Bioinformatics
     \begin{itemize}
     \item $\bullet$ Motif finding
@@ -172,6 +145,7 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
   \begin{itemize}
   \item $\bullet$ $\mathcal{O}^*\l(2^{\ell^2 / 2}\r)$
   \item $\bullet$ $\mathcal{O}\l(n \ell^2\r)$ for $d = 1$
+  \item $\bullet$ $\mathcal{O}^*\l((d + 1)^{d + k}\r)$
   \item $\bullet$ $\mathcal{O}^*\l(|\Sigma|^k \cdot
     d^d\r)$
   \end{itemize}
@@ -183,13 +157,14 @@ $ \in \l(\Sigma \cup \l\{\texttt{*}\r\}\r)^{n \times \ell}$
   \end{center}\begin{itemize}
   \item $\bullet$ $\mathcal{O}^*\l(\ell^\ell\r)$
   \item $\bullet$ $\mathcal{O}\l(n \ell\r)$ for $d = 1$
+  \item $\bullet$ Bug fixed
   \item $\bullet$ $\mathcal{O}^*\l(|\Sigma|^{d+ k} \cdot 2^{4k + d}\r)$
   \end{itemize}
 \end{minipage}
 \pause
 \vspace{2em}
 \begin{center}
-  A bug in CPM '14 $\mathcal{O}^*\l((d + 1)^{d + k}\r)$ algorithm is fixed 
+  $k$ is the maximum number of character row-wise
 \end{center}
 \begin{center}
   All results are proven for the more general \textbf{ConRMC}
@@ -421,7 +396,6 @@ Set $v[j] = S[i, j]$, process $j$-th column and recurse
 \end{center}
 
 $$ T(n, \ell) = (\widetilde{d} + 1) T(n, \ell - 1) + n \ell $$
-\pause
 $$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
 \cdot n
 \ell \r) = \mathcal{O}^*\l(\ell^\ell\r)$$
@@ -456,12 +430,12 @@ $$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
 \end{frame}
 
 \begin{frame}{Linear Algorithm for $d_i \leq 1$}
-  Suppose $v \in \Sigma^\ell $ solves MinRMC
+  Suppose $v \in \Sigma^\ell $ solves ConRMC
   \begin{center}
     $x_{j, \sigma} = \l(\text{\texttt{v[j] == $\sigma$}} \r)$
   \end{center}
 \pause
-  We write MinRMC as $\phi_1 \land \phi_2 \land \phi_3$ where:
+  We write ConRMC as $\phi_1 \land \phi_2 \land \phi_3$ where:
   \begin{equation*}
     \phi_1
     = \text{`` For each $j$ at most one of $\l\{x_{j,
@@ -480,11 +454,11 @@ $$\implies T(n, \ell) = \mathcal{O}\l(\l(\widetilde{d} + 1\r)^\ell
 \end{frame}
 
 \begin{frame}{Linear Algorithm for $d_i \leq 1$}
-$P = \{p_1 \dots p_m\}$ propositions, exists a compact 2-SAT
+$\{p_1 \dots p_m\}$ propositions, exists a compact 2-SAT
 encoding of
 
 \begin{center}
-  $C_{\leq 1}(P) = $ ``At most one proposition in $P$ is true'' 
+  ``At most one proposition in $\{p_1 \dots p_m\}$ is true'' 
 \end{center}
 
 that uses $\mathcal{O}(m)$ clauses. 
